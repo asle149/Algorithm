@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class Main{
-    static final int INF = 1_000_000 * 16 + 1;
+    static final int INF = 1000000000;
     static int N;
     static int[][] W, dp;
     
