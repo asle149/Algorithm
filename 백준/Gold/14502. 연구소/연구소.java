@@ -34,11 +34,11 @@ public class Main{
             return;
         }
         for(int i=start; i<empty.size(); i++){
-            int[] cur = empty.get(i);
-            int x = cur[0], y = cur[1];
-            map[x][y] = 1;
+            int[] curE = empty.get(i);
+            int ex = curE[0], ey = curE[1];
+            map[ex][ey] = 1;
             dfs(map, i+1, idx+1);
-            map[x][y] = 0;
+            map[ex][ey] = 0;
         }
     }
     
@@ -47,13 +47,15 @@ public class Main{
         Queue<int[]> q = new LinkedList<>();
         boolean[][] visited = new boolean[N][M];
         for(int i=0; i<virus.size(); i++){
-            q.offer(virus.get(i));
+            int[] curV = virus.get(i);
+            int vx = curV[0], vy = curV[1];
+            q.offer(new int[]{vx, vy});
+            visited[vx][vy] = true;
         }
         while(!q.isEmpty()){
             int[] cur = q.poll();
             int x = cur[0];
             int y = cur[1];
-            visited[x][y] = true;
             for(int k=0; k<4; k++){
                 int nx = x + dx[k];
                 int ny = y + dy[k];
