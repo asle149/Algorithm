@@ -1,29 +1,41 @@
-import java.io.*;
 import java.util.*;
 
 class Solution {
     public int solution(String s) {
-        int ans = 0;
-        for(int i=0; i<s.length(); i++){
-            Stack<Character> st = new Stack<>();
-            for(int j=0; j<s.length(); j++){
-                int idx = (i + j) % s.length();
-                Character c = s.charAt(idx);
-                
-                if(c == '(' || c == '{' || c == '[') st.push(c);
-                else{
-                    if(st.empty()) {st.push(c); break;}
-                    char m = st.peek();
-                    if(c == ')'&& m == '(') st.pop();
-                    else if(c == '}'&& m == '{') st.pop();
-                    else if(c == ']'&& m == '[') st.pop();
-                    else break;
-                }
-            }
-            
-            if(st.empty()) ans++;
+        int answer = 0;
+
+        for (int start = 0; start < s.length(); start++) {
+            if (check(s, start)) answer++;
         }
-        
-        return ans;
+
+        return answer;
+    }
+
+    private boolean check(String s, int start) {
+        Stack<Character> stack = new Stack<>();
+        int len = s.length();
+
+        for (int i = 0; i < len; i++) {
+            char c = s.charAt((start + i) % len);
+
+            if (c == '(' || c == '{' || c == '[') {
+                stack.push(c);
+            } else {
+                if (stack.isEmpty()) return false;
+
+                char open = stack.peek();
+                if (!isPair(open, c)) return false;
+
+                stack.pop();
+            }
+        }
+
+        return stack.isEmpty();
+    }
+
+    private boolean isPair(char open, char close) {
+        return (open == '(' && close == ')')
+            || (open == '{' && close == '}')
+            || (open == '[' && close == ']');
     }
 }
