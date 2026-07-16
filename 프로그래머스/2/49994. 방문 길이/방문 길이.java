@@ -3,31 +3,45 @@ import java.util.*;
 
 class Solution {
     static int[] cur = new int[2];
-    static boolean[][] vRow = new boolean[11][10];
-    static boolean[][] vCol = new boolean[10][11];
+    static HashSet<String> set = new HashSet<>();
     static int ans = 0;
     
     public int[] dir(Character c){
         int x = cur[0];
         int y = cur[1];
-        
+        int nx, ny;
+        StringBuilder sb1 = new StringBuilder();
+        StringBuilder sb2 = new StringBuilder();
+        sb1.append(x).append(y);
+
         if(c == 'U'){
             if(x == 0) return cur;
-            if(!vCol[x-1][y]) {vCol[x-1][y] = true; ans++;}
-            return new int[]{x-1, y};
+            nx = x-1; ny = y;
+            sb1.append(nx).append(ny);
+            sb2.append(nx).append(ny).append(x).append(y);
         }else if(c == 'D'){
             if(x == 10) return cur;
-            if(!vCol[x][y]) {vCol[x][y] = true; ans++;}
-            return new int[]{x+1, y};
+            nx = x+1; ny = y;
+            sb1.append(nx).append(ny);
+            sb2.append(nx).append(ny).append(x).append(y);
         }else if(c == 'R'){
             if(y == 10) return cur;
-            if(!vRow[x][y]) {vRow[x][y] = true; ans++;}
-            return new int[]{x, y+1};
+            nx = x; ny = y+1;
+            sb1.append(nx).append(ny);
+            sb2.append(nx).append(ny).append(x).append(y);
         }else{
             if(y == 0) return cur;
-            if(!vRow[x][y-1]) {vRow[x][y-1] = true; ans++;}
-            return new int[]{x, y-1};
+            nx = x; ny = y-1;
+            sb1.append(nx).append(ny);
+            sb2.append(nx).append(ny).append(x).append(y);
         }
+        
+        boolean isNew = !set.contains(sb1.toString());
+        set.add(sb1.toString());
+        set.add(sb2.toString());
+        
+        if(isNew) ans++;
+        return new int[]{nx, ny};
     }
     
     public int solution(String dirs) {
