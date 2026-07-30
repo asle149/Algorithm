@@ -2,17 +2,15 @@ import java.io.*;
 import java.util.*;
 
 class Solution {
-    static HashSet<Integer> set = new HashSet<>();
+    static HashSet<Integer> set;
     char[] num;
     
     public int solution(String numbers) {
         num = numbers.toCharArray();
+        set = new HashSet<>();
 
-        for(int i=0; i<num.length; i++){
-            boolean[] visited = new boolean[num.length];
-            visited[i] = true;
-            makePrime(num[i]-'0', visited);
-        }
+        boolean[] visited = new boolean[num.length];
+        makePrime(0, visited);
         
         return set.size();
     }
@@ -28,13 +26,13 @@ class Solution {
             makePrime(newN, visited);
             visited[i] = false;
         }
-        
-        return;
+
     }
     
     public boolean isPrime(int n){
-        if(n == 0 || n == 1) return false;
-        for(int i=2; i*i<=n; i++){
+        if(n == 2) return true;
+        if(n<2 || n%2 == 0) return false;
+        for(int i=3; i*i<=n; i+=2){
             if(n%i == 0) return false;
         }
         return true;
