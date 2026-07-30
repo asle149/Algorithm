@@ -3,41 +3,40 @@ import java.util.*;
 
 class Solution {
     static HashSet<Integer> set = new HashSet<>();
-    static int[] num;
-    static int ans = 0;
-    static boolean [] visited;
+    char[] num;
+    
+    public int solution(String numbers) {
+        num = numbers.toCharArray();
+
+        for(int i=0; i<num.length; i++){
+            boolean[] visited = new boolean[num.length];
+            visited[i] = true;
+            makePrime(num[i]-'0', visited);
+        }
+        
+        return set.size();
+    }
+    
+    public void makePrime(int n, boolean[] visited){
+        if(isPrime(n)) set.add(n);
+        
+        for(int i=0; i<visited.length; i++){
+            if(visited[i]) continue;
+            visited[i] = true;
+            int extra = num[i] - '0';
+            int newN = n*10 + extra;
+            makePrime(newN, visited);
+            visited[i] = false;
+        }
+        
+        return;
+    }
     
     public boolean isPrime(int n){
-        if(n<2) return false;
-        if(n == 2) return true;
-        if(n%2 == 0) return false;
-        for(int i=3; i*i<=n; i+=2){
+        if(n == 0 || n == 1) return false;
+        for(int i=2; i*i<=n; i++){
             if(n%i == 0) return false;
         }
         return true;
-    }
-    
-    public int solution(String numbers) {
-        num = new int[numbers.length()];
-        for(int i=0; i<numbers.length(); i++) num[i] = numbers.charAt(i)-'0';
-        visited = new boolean[numbers.length()];
-        dfs(0, 0);
-        for(int x : set){
-            if(isPrime(x)) ans++;
-        }
-        return ans;
-    }
-    
-    public static void dfs(int cur, int idx){
-        set.add(cur);
-        if(idx == num.length) return;
-        for(int i=0; i<num.length; i++){
-            if(!visited[i]){
-                visited[i] = true;
-                dfs(cur*10+num[i], idx+1);
-                visited[i] = false;
-            }
-        }
-        return;
     }
 }
