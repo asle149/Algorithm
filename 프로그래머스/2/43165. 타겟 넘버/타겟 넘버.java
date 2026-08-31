@@ -1,12 +1,25 @@
+import java.io.*;
+import java.util.*;
+
 class Solution {
-    public int solution(int[] numbers, int target) {
-        return dfs(numbers, target, 0, 0);        
+    static int[] nums;
+    static int target;
+    static int ans = 0;
+    
+    public int solution(int[] nums, int target) {
+        Solution.nums = nums;
+        Solution.target = target;
+        dfs(0, 0);
+        return ans;
     }
     
-    public int dfs(int[] numbers, int target, int idx, int sum){
-        if(idx == numbers.length) return sum == target ? 1 : 0;
-        
-        return dfs(numbers, target, idx+1, sum + numbers[idx]) +
-            dfs(numbers, target, idx+1, sum - numbers[idx]);
+    public void dfs(int start, int sum){
+        if(start == nums.length){
+            if(sum == target) ans++;
+            return;
+        }
+        dfs(start+1, sum+nums[start]);
+        dfs(start+1, sum-nums[start]);
+        return;
     }
 }
