@@ -1,25 +1,25 @@
+import java.io.*;
 import java.util.*;
 
 class Solution {
     public String solution(String[] p, String[] c) {
-        HashMap<String, Integer> map = new HashMap<>();
-        for(int i=0; i<c.length; i++) {
-            if(map.containsKey(c[i])) map.put(c[i], map.get(c[i])+1);
-            else map.put(c[i], 0);
+        HashMap<String, Integer> map1 = new HashMap<>();
+        HashMap<String, Integer> map2 = new HashMap<>();
+        
+        for(int i=0; i<p.length; i++){
+            map1.put(p[i], map1.getOrDefault(p[i], 0)+1);
         }
         
-        String answer = "";
-        for(String str : p){
-            if(!map.containsKey(str)){
-                answer = str;
-                break;
-            }else if(map.get(str)<0){
-                answer = str;
-                break;
-            }else{
-                map.put(str, map.get(str)-1);
+        for(int i=0; i<c.length; i++){
+            map2.put(c[i], map2.getOrDefault(c[i], 0)+1);
+        }
+        
+        for(int i=0; i<p.length; i++){
+            if(!map1.get(p[i]).equals(map2.getOrDefault(p[i], 0))){
+                return p[i];
             }
         }
-        return answer;
+        
+        return "";
     }
 }
