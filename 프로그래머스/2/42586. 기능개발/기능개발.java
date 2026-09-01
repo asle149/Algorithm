@@ -1,29 +1,32 @@
+import java.io.*;
 import java.util.*;
 
 class Solution {
-    public int[] solution(int[] progresses, int[] speeds) {
+    public int[] solution(int[] p, int[] speeds) {
         Queue<Integer> q = new LinkedList<>();
-        for(int i=0; i<speeds.length; i++){
-            int p = progresses[i];
-            int s = speeds[i];
-            int a = (100-p) % s == 0 ? (100-p)/s : (100-p)/s + 1;
-            q.offer(a);
+        for(int i=0; i<p.length; i++){
+            int time = 0;
+            if(((100-p[i])%speeds[i])!=0) time++;
+            time += (100-p[i])/speeds[i];
+            q.offer(time);
         }
+        
         List<Integer> l = new ArrayList<>();
         while(!q.isEmpty()){
-            int cnt = 0;
-            int last = q.poll();
-            cnt++;
-            while(!q.isEmpty() && last >= q.peek()){
-                cnt++;
+            int num = q.poll();
+            int cnt = 1;
+            while(!q.isEmpty() && num >= q.peek()){
                 q.poll();
+                cnt++;
             }
             l.add(cnt);
         }
         
+        int[] ans = new int[l.size()];
+        for(int i=0; i<l.size(); i++){
+            ans[i] = l.get(i);
+        }
         
-        int[] answer = new int[l.size()];
-        for(int i=0; i<l.size(); i++) answer[i] = l.get(i); 
-        return answer;
+        return ans;
     }
 }
