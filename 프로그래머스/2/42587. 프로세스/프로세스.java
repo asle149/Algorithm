@@ -2,32 +2,23 @@ import java.io.*;
 import java.util.*;
 
 class Solution {
-    public int solution(int[] pri, int location) {
-        Queue<Integer> q = new LinkedList<>();
+    public int solution(int[] pr, int location) {
         PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
-        for(int i=0; i<pri.length; i++){
-            q.offer(pri[i]);
-            pq.offer(pri[i]);
+        for(int i=0; i<pr.length; i++){
+            pq.offer(pr[i]);
         }
         
-        int ans = 0;
-        int loc = location;
-        while(loc != -1){
-            int cur = pq.peek();
-            int num = 0;
-            while(true){
-                num = q.poll();
-                if(cur == num){
-                    loc--;
+        int ans = 1;
+        while(!pq.isEmpty()){
+            for(int i=0; i<pr.length; i++){
+                if(pr[i] == pq.peek()){
                     pq.poll();
-                    break;
+                    if(i == location) return ans;
+                    ans++;
                 }
-                if(loc == 0) loc = loc+q.size();
-                else loc--;
-                q.offer(num);
             }
-            ans++;
         }
+        
         return ans;
     }
 }
