@@ -1,5 +1,5 @@
 import java.util.*;
-
+ 
 class Solution {
     public boolean solution(String[] pb) {
         Arrays.sort(pb);
