@@ -3,44 +3,31 @@ import java.util.*;
 
 class Solution {
     public String[] solution(String[] files) {
-        String[][] f = new String[files.length][3];
-        
+        String[][] arr = new String[files.length][4];
         for(int i=0; i<files.length; i++){
             String str = files[i];
-            int j=0;
-            int nb = 0, tb = str.length();
-            while(j<str.length()){
-                if(Character.isDigit(str.charAt(j))) { nb = j; break; }
-                j++;
-            }
-            while(j<str.length()){
-                if(!Character.isDigit(str.charAt(j))){ tb = j; break; }
-                j++;
-            }
-            String head = str.substring(0, nb);
-            String num = str.substring(nb, tb);
-            
-            f[i][0] = head; 
-            f[i][1] = num;
-            f[i][2] = str;
+            arr[i][0] = str;
+            int j = 0;
+            while(str.charAt(j)<'0' || str.charAt(j)>'9') j++;
+            arr[i][1] = str.substring(0, j);
+            int k = j;
+            while(j < str.length() && j - k < 5 
+                  && str.charAt(j)>='0' && str.charAt(j)<='9') j++;
+            arr[i][2] = str.substring(k, j);
+            arr[i][3] = str.substring(j, str.length());
         }
         
-        Arrays.sort(f, (a, b) -> {
-            int headCompare = a[0].compareToIgnoreCase(b[0]);
-
-            if (headCompare != 0) {
-                return headCompare;
+        Arrays.sort(arr, (a, b)->{
+            int cmp = a[1].compareToIgnoreCase(b[1]);
+            if(cmp == 0){
+                return Integer.parseInt(a[2]) - Integer.parseInt(b[2]);
             }
-
-            return Integer.compare(
-                Integer.parseInt(a[1]),
-                Integer.parseInt(b[1])
-            );
+            return cmp;
         });
         
         String[] ans = new String[files.length];
-        for(int i=0; i<ans.length; i++){
-            ans[i] = f[i][2];
+        for(int i=0; i<files.length; i++){
+            ans[i] = arr[i][0];
         }
         
         return ans;
