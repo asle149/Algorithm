@@ -1,0 +1,58 @@
+import java.io.*;
+import java.util.*;
+
+class Solution {
+    static int[] ans;
+    static int[][] users;
+    static int[] emoticons;
+    
+    public int[] solution(int[][] users, int[] emoticons) {
+        Solution.users = users;
+        Solution.emoticons = emoticons;
+        ans = new int[2];
+        int[][] price = new int[emoticons.length][2];
+        for(int i=0; i<price.length; i++) {
+            price[i][0] = 1;
+            price[i][1] = emoticons[i];
+        }
+        dfs(0, price);
+        
+        return ans;
+    }
+    
+    public static void dfs(int idx, int[][] price){
+        if(idx == emoticons.length) return;
+
+        for(int i=1; i<=4; i++){
+            int plus = 0;
+            int usum = 0;
+            price[idx][0] = i*10;
+            price[idx][1] = (int)(emoticons[idx]*(10-i)*0.1);
+            for(int j=0; j<users.length; j++){
+                int money = calcul(j, price);
+                if(users[j][1]<=money) plus++;
+                else usum += money;
+            }
+            if(ans[0]<plus){
+                ans[0] = plus;
+                ans[1] = usum;
+            }else if(ans[0] == plus && ans[1]<usum){
+                ans[0] = plus;
+                ans[1] = usum;
+            }
+            dfs(idx+1, price);
+        }
+        return;
+    }
+    
+    public static int calcul(int n, int[][] price){
+        int lp = users[n][0];
+        int sum = 0;
+        for(int i=0; i<price.length; i++){
+            if(price[i][0]>=lp){
+                sum += price[i][1];
+            }
+        }
+        return sum;
+    }
+}
