@@ -3,23 +3,23 @@ import java.util.*;
 
 class Solution {
     public long solution(int n, int[] works) {
-        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
-        for(int i=0; i<works.length; i++){
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> (b - a));
+        for(int i=0; i<works.length; i++) {
             pq.offer(works[i]);
         }
-        for(int i=0; i<n; i++){
-            if(pq.isEmpty()) break;
+        
+        while(n>0){
             int num = pq.poll();
-            if(num <= 1) continue;
+            if(num == 0) return 0;
             pq.offer(num-1);
+            n--;
         }
         
-        long answer = 0;
-        while(!pq.isEmpty()){
-            long num = (long) pq.poll();
-            answer += num*num;
+        long ans = 0;
+        for(int num : pq){
+            ans += (long) num*num;
         }
-
-        return answer;
+        
+        return ans;
     }
 }
